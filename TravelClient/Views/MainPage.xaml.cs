@@ -54,13 +54,14 @@ namespace TravelClient.Views
             }
             else
             {
-                Task t = Task.Run(async () =>
+                Task t = Task.Run(async () =>   
                 {
                     Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
                     Windows.Storage.StorageFile currentUser = await storageFolder.GetFileAsync("currentUser");
                     await Windows.Storage.FileIO.WriteTextAsync(currentUser, response.Content.ReadAsStringAsync().Result);
                 });
                 t.Wait();
+                ShellPage.Current.ShowPanel();
                 NavigationService.Frame.Navigate(typeof(TravelListOverview));
             }
             

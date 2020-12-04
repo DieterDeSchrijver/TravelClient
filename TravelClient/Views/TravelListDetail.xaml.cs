@@ -143,31 +143,39 @@ namespace TravelClient.Views
             }
             else
             {
-                ContentDialog deleteItem = new ContentDialog
+                if (SettingsService.DeleteItemSetting)
                 {
-                    Title = "Delete item from list",
-                    Content = "You can change your preferences in the settings?",
-                    CloseButtonText = "Cancel",
-                    PrimaryButtonText = "Delete",
-                    SecondaryButtonText = "Never show again",
-                    DefaultButton = ContentDialogButton.Primary
-                };
+                    ContentDialog deleteItem = new ContentDialog
+                    {
+                        Title = "Delete item from list",
+                        Content = "You can change your preferences in the settings?",
+                        CloseButtonText = "Cancel",
+                        PrimaryButtonText = "Delete",
+                        SecondaryButtonText = "Never show again",
+                        DefaultButton = ContentDialogButton.Primary
+                    };
 
-                ContentDialogResult result = await deleteItem.ShowAsync();
-                if (result == ContentDialogResult.Primary)
+                    ContentDialogResult result = await deleteItem.ShowAsync();
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        DeleteItem();
+                    }
+                    if (result == ContentDialogResult.Secondary)
+                    {
+                        SettingsService.ChangeDeleteItemSetting(false);
+                        DeleteItem();
+                    }
+                    if (result == ContentDialogResult.None)
+                    {
+                        
+                    }
+
+                }
+                if (!SettingsService.DeleteItemSetting)
                 {
                     DeleteItem();
                 }
-                else
-                {
-                    if (result == ContentDialogResult.Secondary)
-                    {
-                        //TODO: add never show again setting
-                    }
-                }
-                
-            }
-            
+            }            
         }
 
         private void DeleteItem()
@@ -191,7 +199,7 @@ namespace TravelClient.Views
             }
             else
             {
-                http.po
+                
             }
         }
     }

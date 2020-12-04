@@ -10,7 +10,7 @@ namespace TravelClient.Services
     public static class NavigationService
     {
         public static event NavigatedEventHandler Navigated;
-
+            
         public static event NavigationFailedEventHandler NavigationFailed;
 
         private static Frame _frame;

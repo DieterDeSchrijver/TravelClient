@@ -23,9 +23,14 @@ namespace TravelClient.Views
     {
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
         private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
-
+        public static ShellPage Current;
         private bool _isBackEnabled;
         private WinUI.NavigationViewItem _selected;
+
+        internal void HidePanel()
+        {
+            navigationView.IsPaneVisible = false;
+        }
 
         public bool IsBackEnabled
         {
@@ -42,6 +47,7 @@ namespace TravelClient.Views
         public ShellPage()
         {
             InitializeComponent();
+            Current = this;
             DataContext = this;
             Initialize();
         }
@@ -68,9 +74,20 @@ namespace TravelClient.Views
             throw e.Exception;
         }
 
+        internal void ShowPanel()
+        {
+            navigationView.IsPaneVisible = true;
+        }
+
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             IsBackEnabled = NavigationService.CanGoBack;
+            if (e.SourcePageType == typeof(SettingsPage))
+            {
+                Selected = navigationView.SettingsItem as WinUI.NavigationViewItem;
+                return;
+            }
+
             var selectedItem = GetSelectedItem(navigationView.MenuItems, e.SourcePageType);
             if (selectedItem != null)
             {
@@ -107,7 +124,7 @@ namespace TravelClient.Views
         {
             if (args.IsSettingsInvoked)
             {
-                // Navigate to the settings page - implement as appropriate if needed
+                NavigationService.Navigate(typeof(SettingsPage), null, args.RecommendedNavigationTransitionInfo);
             }
             else if (args.InvokedItemContainer is WinUI.NavigationViewItem selectedItem)
             {

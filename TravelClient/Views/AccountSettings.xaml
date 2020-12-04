@@ -1,0 +1,20 @@
+﻿<Page
+    x:Class="TravelClient.Views.AccountSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TravelClient.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Width="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox Margin="10" Header="Username"></TextBox>
+            <TextBox Margin="10" Header="Email"></TextBox>
+            <PasswordBox Margin="10" Header="Password" PasswordChar="*"></PasswordBox>
+            <Button Margin="10" Content="Save"></Button>
+        </StackPanel>
+        <Button Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Log Out" Background="red" Foreground="White" Click="Button_Click"></Button>
+    </Grid>
+</Page>
