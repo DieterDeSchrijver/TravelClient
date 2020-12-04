@@ -177,4 +177,13 @@
     <value>Ask for confirmation when removing an item</value>
     <comment>ask for confirmation when removing an item</comment>
   </data>
+  <data name="Shell_AccountSettings.Content" xml:space="preserve">
+    <value>Account Settings</value>
+  </data>
+  <data name="Shell_ListOverview.Content" xml:space="preserve">
+    <value>Travel Lists</value>
+  </data>
+  <data name="Shell_Categories.Content" xml:space="preserve">
+    <value>Categories</value>
+  </data>
 </root>

@@ -35,6 +35,7 @@
             </winui:NavigationViewItem>
             <winui:NavigationViewItem x:Uid="Shell_SchemeActivationSample" Icon="Document" helpers:NavHelper.NavigateTo="views:SchemeActivationSamplePage" />
             <winui:NavigationViewItem x:Uid="Shell_AccountSettings" Icon="People" helpers:NavHelper.NavigateTo="views:AccountSettings" />
+            <winui:NavigationViewItem x:Uid="Shell_Categories" Icon="Document" helpers:NavHelper.NavigateTo="views:Categories" />
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior

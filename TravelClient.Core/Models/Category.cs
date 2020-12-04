@@ -9,9 +9,8 @@ namespace TravelClient.Core.Models
         public string Id { get; set; }
         public string Name { get; set; }
 
-        public Category(string id, string name)
+        public Category(string name)
         {
-            Id = id;
             Name = name;
         }
     }
