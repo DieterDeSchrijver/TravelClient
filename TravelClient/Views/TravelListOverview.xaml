@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="TravelClient.Views.TravelListOverview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TravelClient.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:data="using:TravelClient.Core.Models"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <RelativePanel>
+            <controls:AdaptiveGridView x:Name="agv"
+            Padding="{StaticResource MediumLeftRightMargin}"
+            animations:Connected.ListItemElementName="itemThumbnail"
+            animations:Connected.ListItemKey="animationKeyContentGrid"
+            DesiredWidth="400"
+            IsItemClickEnabled="True"
+            ItemClick="OnItemClick"
+            ItemHeight="200"
+            ItemsSource="{x:Bind TravelLists,Mode=OneWay}"
+            SelectionMode="None"
+            StretchContentForSingleRow="False">
+
+                <controls:AdaptiveGridView.ItemTemplate>
+
+                    <DataTemplate x:DataType="data:TravelList">
+                        <StackPanel>
+                            <Image Stretch="UniformToFill" Source="{x:Bind Location.ImageSource, Mode=OneWay}"></Image>
+                            <TextBlock Text="{x:Bind Listname, Mode=OneWay}" Width="400" Height="20"></TextBlock>
+                        </StackPanel>
+
+                    </DataTemplate>
+                </controls:AdaptiveGridView.ItemTemplate>
+
+            </controls:AdaptiveGridView>
+            <StackPanel RelativePanel.Below="agv">
+                <Button  x:Name="signInButton" Width="100" Content="ADD ITEM" Margin="20" Click="NewListButton_Click"></Button>
+            </StackPanel>
+        </RelativePanel>
+        
+    </Grid>
+</Page>

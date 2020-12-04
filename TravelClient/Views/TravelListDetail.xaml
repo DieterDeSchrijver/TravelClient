@@ -1,0 +1,97 @@
+﻿<Page
+    x:Class="TravelClient.Views.TravelListDetail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:data="using:TravelClient.Core.Models"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TravelClient.Views"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <RelativePanel HorizontalAlignment="Center">
+                <Image x:Name="imageLocation" Stretch="UniformToFill" Source="{x:Bind TravelList.Location.ImageSource, Mode=OneWay}"/>
+            </RelativePanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <StackPanel>
+                <TextBlock Margin="10" Text="{x:Bind TravelList.Listname, Mode=OneWay}" FontWeight="Bold" FontSize="32"></TextBlock>
+                <TextBlock Margin="10" Text="{x:Bind TravelList.StartDate.ToString(), Mode=OneWay}"></TextBlock>
+                <TextBlock Margin="10" Text="{x:Bind TravelList.StartDate.ToString(), Mode=OneWay}"></TextBlock>
+                <TextBlock Margin="10" Text="{x:Bind TravelList.Description, Mode=OneWay}"></TextBlock>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.RowSpan="2" Grid.Column="1">
+            <RelativePanel>
+                <CommandBar x:Name="commandBar">
+                    <AppBarButton Icon="Add" Label="Add Item" Click="AddButton_Click">
+                        
+                    </AppBarButton>
+                    <AppBarButton Icon="Delete" Label="Delete" Click="DeleteButton_Click">
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout>
+                                <TextBlock Text="Please select an item first."/>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
+                    </AppBarButton>
+                </CommandBar>
+
+                <muxc:ProgressBar Foreground="Green" Width="400" RelativePanel.Below="commandBar" VerticalAlignment="top" x:Name="bar" Value="0" />
+                <TextBlock x:Name="errorMessage" Foreground="Red" Text="" RelativePanel.Below="bar"></TextBlock>
+                <ListView x:Name="itemListView" RelativePanel.Below="bar" ItemsSource="{x:Bind Items, Mode=TwoWay}" CanDragItems="True" CanReorderItems="True" AllowDrop="True" SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:Name="SingleLineDataTemplate" x:DataType="data:TravelItem">
+                            <RelativePanel>
+                                <CheckBox x:Name="checkbox" MinWidth="20" Width="20" IsChecked="{x:Bind Completed, Mode=TwoWay}" Click="checkbox_toggle"></CheckBox>
+                                <TextBlock x:Name="item" RelativePanel.RightOf="checkbox" Text="{x:Bind Name, Mode=TwoWay}" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" Margin="12,0,0,0"/>
+                            </RelativePanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </RelativePanel>
+
+            <SplitView IsPaneOpen="False"
+           x:Name="addPane"
+           DisplayMode="Overlay"
+           PanePlacement="Right"
+           OpenPaneLength="250">
+                <SplitView.Pane>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Margin="10" Text="Add item"
+                       FontSize="24"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+                        <TextBox x:Name="newItemName" Margin="10" Header="Item Name"></TextBox>
+                        <ComboBox Margin="10" Header="Category" ItemsSource="{x:Bind Categories, Mode=TwoWay}" Name="cmbox" Width="200">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="data:Category">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{x:Bind Name, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Margin="10" Content="ADD ITEM" Click="Button_Click"></Button>
+                        <TextBlock Foreground="Red" x:Name="addItemErrorMessage" Text=""></TextBlock>
+                    </StackPanel>
+                </SplitView.Pane>
+            </SplitView>
+        </Grid>
+    </Grid>
+</Page>
+
