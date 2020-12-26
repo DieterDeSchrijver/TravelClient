@@ -48,8 +48,8 @@ namespace TravelClient.Views
 
             base.OnNavigatedTo(e);
 
-            // TODO WTS: Replace this with your actual data
-            var data = await http.GetAsync<List<TravelList>>("https://localhost:5001/api/TravelList", s);
+            
+            var data = await http.GetAsync<List<TravelList>>("http://localhost:5000/api/TravelList", s);
             foreach (TravelList list in data)
             {
                 TravelLists.Add(list);

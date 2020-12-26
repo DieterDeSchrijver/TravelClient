@@ -44,7 +44,7 @@ namespace TravelClient.Views
             LoginRequest login = new LoginRequest(emailInput.Text, passwordInput.Text);
             Task task = Task.Run(async () =>
             {
-                response = await http.Login<LoginRequest>("https://localhost:5001/api/User/login", login); // sends GET request
+                response = await http.Login<LoginRequest>("http://localhost:5000/api/User/login", login); // sends GET request
 
             });
             task.Wait(); // Wait
@@ -70,7 +70,7 @@ namespace TravelClient.Views
         private void RegisterButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             RegisterRequest register = new RegisterRequest(registerEmail.Text, registerPassword.Password, registerName.Text);
-            var response = http.PostAsJsonAsync("https://localhost:5001/api/User/Register", register, null);
+            var response = http.PostAsJsonAsync("http://localhost:5000/api/User/Register", register, null);
 
         }
     }

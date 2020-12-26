@@ -114,8 +114,8 @@ namespace TravelClient.Views
 
         private async void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            NewListRequest request = new NewListRequest(listNameInput.Text, startDate.Date.Value.DateTime, endDate.Date.Value.DateTime, descriptionInput.Text, chosenLoc.LocationNameLong,chosenLoc.Lon, chosenLoc.Lat, chosenLocImage);
-            string response = await http.PostAsJsonAsync("https://localhost:5001/api/TravelList/CreateTravelList", request, s);
+            NewListRequest request = new NewListRequest(listNameInput.Text, startDate.Date.Value.DateTime, endDate.Date.Value.DateTime, descriptionInput.Text, chosenLoc.LocationNameShort,chosenLoc.Lon, chosenLoc.Lat, chosenLocImage);
+            string response = await http.PostAsJsonAsync("http://localhost:5000/api/TravelList/CreateTravelList", request, s);
             NavigationService.Navigate<TravelListDetail>(response);
         }
     }

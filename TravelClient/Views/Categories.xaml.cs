@@ -54,7 +54,7 @@ namespace TravelClient.Views
                 s = await Windows.Storage.FileIO.ReadTextAsync(currentUser);
             });
             task.Wait(); // Wait     
-            Categoriess = await http.GetAsync<List<Category>>($"https://localhost:5001/api/User/GetCategories", s);
+            Categoriess = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories", s);
         }
 
         private void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
@@ -73,8 +73,8 @@ namespace TravelClient.Views
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             Category c = new Category(newCategory.Text);
-            string response = await http.PostAsJsonAsync("https://localhost:5001/api/User/AddCategory", c, s);
-            Categoriess = await http.GetAsync<List<Category>>($"https://localhost:5001/api/User/GetCategories", s);
+            string response = await http.PostAsJsonAsync("http://localhost:5000/api/User/AddCategory", c, s);
+            Categoriess = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories", s);
         }
     }
     }
