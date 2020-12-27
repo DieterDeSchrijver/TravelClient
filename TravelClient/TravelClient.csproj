@@ -161,6 +161,7 @@
     <Compile Include="Services\UserActivityData.cs" />
     <Compile Include="Services\UserActivityService.cs" />
     <Compile Include="Services\UserActivityService.Sample.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\LoginRegisterViewModel.cs" />
     <Compile Include="Views\AccountSettings.xaml.cs">
