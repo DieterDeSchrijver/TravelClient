@@ -13,7 +13,7 @@
         <RelativePanel>
             <Grid>
                 <RelativePanel>
-                    <TextBox Margin="10" x:Name="newCategory" Header="New Category"></TextBox>
+                    <TextBox Margin="10" x:Name="newCategory" Header="New Category" Text="{x:Bind ViewModel.NewCategory.Name, Mode=TwoWay}"></TextBox>
                     <Button Margin="10" RelativePanel.RightOf="newCategory" Foreground="White" Background="LightGreen" Content="Add Category" Command="{x:Bind ViewModel.AddCategoryCommand}"></Button>
                 </RelativePanel>
             </Grid>
