@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using TravelClient.Core.Helpers;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
@@ -27,7 +28,7 @@ namespace TravelClient.Views
     public sealed partial class TravelListOverview : Page
     {
         public ObservableCollection<TravelList> TravelLists { get; } = new ObservableCollection<TravelList>();
-        private HttpDataService http = new HttpDataService();
+        private HttpDataService http = Singleton<HttpDataService>.Instance;
 
         public TravelListOverview()
         {
@@ -49,7 +50,7 @@ namespace TravelClient.Views
             base.OnNavigatedTo(e);
 
             
-            var data = await http.GetAsync<List<TravelList>>("http://localhost:5000/api/TravelList", s);
+            var data = await http.GetAsync<List<TravelList>>("TravelList", s);
             foreach (TravelList list in data)
             {
                 TravelLists.Add(list);

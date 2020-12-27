@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TravelClient.Core.Helpers;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 
@@ -15,8 +16,8 @@ namespace TravelClient.ViewModels
     {
         public ObservableString NewCategoryName { get; set; }
         public ICommand AddCategoryCommand { get; set; }
-        public ObservableCollection<Category> Categories { get; set; } 
-        HttpDataService http = new HttpDataService();
+        public ObservableCollection<Category> Categories { get; set; }
+        HttpDataService http = Singleton<HttpDataService>.Instance;
         public string s = String.Empty;
         public CategoriesViewModel()
         {
@@ -36,7 +37,7 @@ namespace TravelClient.ViewModels
 
         public async void FetchCategories()
         {
-            var x = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories", s);
+            var x = await http.GetAsync<List<Category>>($"User/GetCategories", s);
             Categories.Clear();
             x.ForEach(a =>
             {
@@ -47,7 +48,7 @@ namespace TravelClient.ViewModels
 
         private async void AddCategory()
         {
-            string response = await http.PostAsJsonAsync("http://localhost:5000/api/User/AddCategory", new Category(NewCategoryName.Value), s);
+            string response = await http.PostAsJsonAsync("User/AddCategory", new Category(NewCategoryName.Value), s);
             FetchCategories();
             NewCategoryName.Value = "";
         }

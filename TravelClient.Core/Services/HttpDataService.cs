@@ -16,18 +16,18 @@ namespace TravelClient.Core.Services
     {
         private readonly Dictionary<string, object> responseCache;
         private HttpClient client;
+        
 
-        public HttpDataService(string defaultBaseUrl = "")
+        public HttpDataService()
         {
             client = new HttpClient(new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (a, b, c, d) => true
             });
 
-            if (!string.IsNullOrEmpty(defaultBaseUrl))
-            {
-                client.BaseAddress = new Uri($"{defaultBaseUrl}");
-            }
+            
+           client.BaseAddress = new Uri("http://localhost:5000/api/");
+            
 
             responseCache = new Dictionary<string, object>();
         }
@@ -111,7 +111,7 @@ namespace TravelClient.Core.Services
             var serializedItem = JsonConvert.SerializeObject(item);
 
             var response = await client.PostAsync(uri, new StringContent(serializedItem, Encoding.UTF8, "application/json"));
-            
+
             return response.Content.ReadAsStringAsync().Result;
         }
 
