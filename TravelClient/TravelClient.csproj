@@ -161,6 +161,8 @@
     <Compile Include="Services\UserActivityData.cs" />
     <Compile Include="Services\UserActivityService.cs" />
     <Compile Include="Services\UserActivityService.Sample.cs" />
+    <Compile Include="ViewModels\CategoriesViewModel.cs" />
+    <Compile Include="ViewModels\LoginRegisterViewModel.cs" />
     <Compile Include="Views\AccountSettings.xaml.cs">
       <DependentUpon>AccountSettings.xaml</DependentUpon>
     </Compile>
@@ -170,8 +172,8 @@
     <Compile Include="Views\Categories.xaml.cs">
       <DependentUpon>Categories.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Views\LoginRegister.xaml.cs">
+      <DependentUpon>LoginRegister.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewList.xaml.cs">
       <DependentUpon>NewList.xaml</DependentUpon>
@@ -232,7 +234,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPage.xaml">
+    <Page Include="Views\LoginRegister.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

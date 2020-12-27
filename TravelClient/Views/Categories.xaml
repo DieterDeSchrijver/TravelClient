@@ -11,16 +11,16 @@
 
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <RelativePanel>
-            <Grid x:Name="grid">
+            <Grid>
                 <RelativePanel>
                     <TextBox Margin="10" x:Name="newCategory" Header="New Category"></TextBox>
-                    <Button Margin="10" RelativePanel.RightOf="newCategory" Foreground="White" Background="LightGreen" Content="Add Category" Click="Button_Click"></Button>
+                    <Button Margin="10" RelativePanel.RightOf="newCategory" Foreground="White" Background="LightGreen" Content="Add Category" Command="{x:Bind ViewModel.AddCategoryCommand}"></Button>
                 </RelativePanel>
             </Grid>
 
 
 
-            <ListView RelativePanel.Below="grid" x:Name="listView" ItemsSource="{x:Bind Categoriess, Mode=OneWay}">
+            <ListView RelativePanel.Below="grid" x:Name="listView" ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:Category">
                         <TextBlock Text="{x:Bind Name, Mode=OneWay}" />

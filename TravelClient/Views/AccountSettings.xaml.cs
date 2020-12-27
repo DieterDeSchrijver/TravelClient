@@ -31,7 +31,7 @@ namespace TravelClient.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ShellPage.Current.HidePanel();
-            NavigationService.Navigate<MainPage>();
+            NavigationService.Navigate<LoginRegister>();
         }
     }
 }
