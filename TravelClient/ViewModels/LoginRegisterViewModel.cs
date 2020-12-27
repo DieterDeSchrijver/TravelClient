@@ -30,11 +30,12 @@ namespace TravelClient.ViewModels
             this.LoginModel = new LoginRequestModel("", "");
             this.RegisterModel = new RegisterRequestModel("", "", "");
             LoginCommand = new RelayCommand(Login, true);
+            RegisterCommand = new RelayCommand(Register, true);
         }
 
         private void Register()
         {
-            var response = http.PostAsJsonAsync("https://localhost:5001/api/User/Register", RegisterModel, null);
+            var response = http.PostAsJsonAsync("http://localhost:5000/api/User/Register", RegisterModel, null);
         }
 
         private void Login() {
@@ -42,7 +43,7 @@ namespace TravelClient.ViewModels
              HttpResponseMessage response = new HttpResponseMessage();
              Task task = Task.Run(async () =>
              {
-                  response = await http.Login<LoginRequestModel>("https://localhost:5001/api/User/login", LoginModel); // sends GET request
+                  response = await http.Login<LoginRequestModel>("http://localhost:5000/api/User/login", LoginModel); // sends GET request
 
              });
              task.Wait(); // Wait

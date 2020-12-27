@@ -19,7 +19,7 @@
             <RelativePanel x:Name="relativePanel" HorizontalAlignment="center" VerticalAlignment="Center" Grid.Column="0" Margin="0,0,0,0" >
                 <StackPanel x:Name="loginStackPanel">
                     <TextBox Text="{x:Bind ViewModel.LoginModel.Email, Mode=TwoWay}" Header="E-mail" Width="250" Margin="20"></TextBox>
-                    <TextBox Text="{x:Bind ViewModel.LoginModel.Password}" Header="Password" Width="250" Margin="20"></TextBox>
+                    <TextBox Text="{x:Bind ViewModel.LoginModel.Password, Mode=TwoWay}" Header="Password" Width="250" Margin="20"></TextBox>
                     <Button x:Name="signInButton" Width="100" Content="SIGN IN" Margin="20" Command="{x:Bind ViewModel.LoginCommand}"></Button>
                     <TextBlock x:Name="signInErrorMessage" Text="" Foreground="red" Margin="20, 0"></TextBlock>
                 </StackPanel>
@@ -31,7 +31,7 @@
                     <TextBlock Text="Register for free and create your first travel list." Margin="10"></TextBlock>
                     <TextBox Text="{x:Bind ViewModel.RegisterModel.Name, Mode=TwoWay}" Header="Enter your name:" PlaceholderText="name" Margin="10" />
                     <TextBox Text="{x:Bind ViewModel.RegisterModel.Email, Mode=TwoWay}" Header="Enter your email:" PlaceholderText="user@mail.com"  Margin="10"/>
-                    <PasswordBox Password="{x:Bind ViewModel.RegisterModel.Password}" Width="300" Header="Enter your password" PlaceholderText="password" PasswordChar="*"  Margin="10"/>
+                    <PasswordBox Password="{x:Bind ViewModel.RegisterModel.Password, Mode=TwoWay}" Width="300" Header="Enter your password" PlaceholderText="password" PasswordChar="*"  Margin="10"/>
                     <Button x:Name="registerButton" Width="100" Content="REGISTER" Margin="10" Command="{x:Bind ViewModel.RegisterCommand}"></Button>
                     <TextBlock x:Name="registerErrorMessage" Text="" Foreground="red" Margin="10, 0"></TextBlock>
                 </StackPanel>

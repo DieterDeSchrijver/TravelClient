@@ -20,7 +20,7 @@
 
 
 
-            <ListView RelativePanel.Below="grid" x:Name="listView" ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}">
+            <ListView  x:Name="listView" ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:Category">
                         <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
