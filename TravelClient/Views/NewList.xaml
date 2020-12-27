@@ -3,30 +3,35 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TravelClient.Views"
+    xmlns:helper="using:TravelClient.Helpers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tc="using:TravelClient.Helpers"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <helper:TimeConverter x:Key="TimeConverter"  />
+    </Page.Resources>
     <Grid>
 
         <StackPanel VerticalAlignment="Center">
-            <TextBox x:Name="listNameInput" Width="250" Margin="10" Header="List Name"></TextBox>
+            <TextBox Text="{x:Bind ViewModel.NewListRequest.Name, Mode=TwoWay}" Width="250" Margin="10" Header="List Name"></TextBox>
             <AutoSuggestBox Header="Destination" Width="250" PlaceholderText="Choose a destination"
                 x:Name="LocationSuggestBox"
                 Margin="10"
-                TextChanged="LocationAutoSuggest_TextChanged"
+                ItemsSource="{x:Bind ViewModel.Suggestions}"
+                Text="{x:Bind ViewModel.AutoSuggestionBoxText, Mode=TwoWay}"
                 QueryIcon="Find"
-                QuerySubmitted="LocationAutoSuggest_QuerySubmitted"/>
+                />
             <Image Width="250" Height="250" x:Name="image" Stretch="UniformToFill"></Image>
-            <RelativePanel Width="298">
-                <CalendarDatePicker Margin="10" x:Name="startDate" PlaceholderText="Start Date" Header="Start Date" />
-                <TextBlock x:Name="sep" RelativePanel.RightOf="startDate" Text="-" Margin="10,36"></TextBlock>
-                <CalendarDatePicker x:Name="endDate" Margin="10" RelativePanel.RightOf="sep" PlaceholderText="End Date" Header="End Date" />
-                <TextBox x:Name="descriptionInput" Margin="10" Header="Description" RelativePanel.Below="sep" AutomationProperties.Name="multi-line TextBox" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" Width="275" Height="82"/>
-                <Button x:Name="CreateButton" Content="Create" HorizontalAlignment="Center" RelativePanel.Below="descriptionInput" Margin="10 0" Click="CreateButton_Click"></Button>
-            </RelativePanel>
 
+            <RelativePanel Width="298">
+                <CalendarDatePicker x:Name="startDate" Margin="10" Date="{x:Bind ViewModel.NewListRequest.StartDate, Mode=TwoWay, Converter={StaticResource ResourceKey=TimeConverter}}" PlaceholderText="Start Date" Header="Start Date" />
+                <TextBlock x:Name="sep" RelativePanel.RightOf="startDate" Text="-" Margin="10,36"></TextBlock>
+                <CalendarDatePicker  Date="{x:Bind ViewModel.NewListRequest.EndDate, Mode=TwoWay, Converter={StaticResource ResourceKey=TimeConverter}}" Margin="10" RelativePanel.RightOf="sep" PlaceholderText="End Date" Header="End Date" />
+                <TextBox x:Name="descriptionInput" Text="{x:Bind ViewModel.NewListRequest.Description, Mode=TwoWay}" Margin="10" Header="Description" RelativePanel.Below="sep" AutomationProperties.Name="multi-line TextBox" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="True" Width="275" Height="82"/>
+                <Button Command="{x:Bind ViewModel.AddList}" Content="Create" HorizontalAlignment="Center" RelativePanel.Below="descriptionInput" Margin="10 0"></Button>
+            </RelativePanel>
         </StackPanel>
     </Grid>
 </Page>
