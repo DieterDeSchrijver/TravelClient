@@ -153,6 +153,7 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
+    <Compile Include="Helpers\TimeConverter.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
     <Compile Include="Services\NavigationService.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Services\UserActivityService.Sample.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
+    <Compile Include="ViewModels\NewListViewModel.cs" />
     <Compile Include="ViewModels\LoginRegisterViewModel.cs" />
     <Compile Include="Views\AccountSettings.xaml.cs">
       <DependentUpon>AccountSettings.xaml</DependentUpon>
