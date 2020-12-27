@@ -78,8 +78,8 @@ namespace TravelClient.Views
             });
             task.Wait(); // Wait     
 
-            TravelList = await http.GetAsync<TravelList>($"https://localhost:5001/api/TravelList/{id}", s);
-            Categories = await http.GetAsync<List<Category>>($"https://localhost:5001/api/User/GetCategories", s);
+            TravelList = await http.GetAsync<TravelList>($"http://localhost:5000/api/TravelList/{id}", s);
+            Categories = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories", s);
             Items = TravelList.Items;
 
             PopulateListView();
