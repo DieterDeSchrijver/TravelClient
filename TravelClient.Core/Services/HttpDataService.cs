@@ -111,7 +111,7 @@ namespace TravelClient.Core.Services
             var serializedItem = JsonConvert.SerializeObject(item);
 
             var response = await client.PostAsync(uri, new StringContent(serializedItem, Encoding.UTF8, "application/json"));
-
+            
             return response.Content.ReadAsStringAsync().Result;
         }
 

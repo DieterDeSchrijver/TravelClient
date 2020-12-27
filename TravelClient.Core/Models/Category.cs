@@ -1,19 +1,13 @@
-﻿using GalaSoft.MvvmLight;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace TravelClient.Core.Models
 {
-    public class Category: ObservableObject
+    public class Category
     {
-        private string _name;
         public string Id { get; set; }
-        public string Name
-        {
-            get { return _name; }
-            set { Set("Name", ref _name, value);  }
-        }
+        public string Name { get; set; }
 
         public Category(string name)
         {
