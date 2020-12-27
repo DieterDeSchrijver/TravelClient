@@ -26,14 +26,9 @@ namespace TravelClient.ViewModels
         public ObservableBitmapImage Image { get; set; } = new ObservableBitmapImage();
 
         List<LocObj> locs = new List<LocObj>();
-<<<<<<< Updated upstream
-        HttpDataService http = new HttpDataService();
-    
-=======
+
         HttpDataService http = Singleton<HttpDataService>.Instance;
-        LocObj chosenLoc;
-        string chosenLocImage;
->>>>>>> Stashed changes
+
         public string AutoSuggestionBoxText
         {
             get { return _autoSuggestionBoxText; }

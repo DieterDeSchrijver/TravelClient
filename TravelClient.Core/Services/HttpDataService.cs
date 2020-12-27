@@ -16,6 +16,7 @@ namespace TravelClient.Core.Services
     {
         private readonly Dictionary<string, object> responseCache;
         private HttpClient client;
+        private HttpClient baselessClient;
         
 
         public HttpDataService()
@@ -30,6 +31,8 @@ namespace TravelClient.Core.Services
             
 
             responseCache = new Dictionary<string, object>();
+
+            baselessClient = new HttpClient();
         }
 
         public async Task<T> GetAsync<T>(string uri, string accessToken = null)
@@ -46,7 +49,7 @@ namespace TravelClient.Core.Services
 
         public async Task<List<LocObj>> GetLocationAsync(string uri)
         {
-            var json = await client.GetStringAsync(uri);
+            var json = await baselessClient.GetStringAsync(uri);
 
             dynamic model = await Task.Run(() => JsonConvert.DeserializeObject(json));
 
@@ -66,7 +69,7 @@ namespace TravelClient.Core.Services
 
         public async Task<string> GetImageAsync(string v)
         {
-            var json = await client.GetStringAsync(v);
+            var json = await baselessClient.GetStringAsync(v);
 
             dynamic model = await Task.Run(() => JsonConvert.DeserializeObject(json));
 
