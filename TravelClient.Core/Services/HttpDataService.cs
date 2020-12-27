@@ -16,20 +16,23 @@ namespace TravelClient.Core.Services
     {
         private readonly Dictionary<string, object> responseCache;
         private HttpClient client;
+        private HttpClient baselessClient;
+        
 
-        public HttpDataService(string defaultBaseUrl = "")
+        public HttpDataService()
         {
             client = new HttpClient(new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (a, b, c, d) => true
             });
 
-            if (!string.IsNullOrEmpty(defaultBaseUrl))
-            {
-                client.BaseAddress = new Uri($"{defaultBaseUrl}");
-            }
+            
+           client.BaseAddress = new Uri("http://localhost:5000/api/");
+            
 
             responseCache = new Dictionary<string, object>();
+
+            baselessClient = new HttpClient();
         }
 
         public async Task<T> GetAsync<T>(string uri, string accessToken = null)
@@ -46,7 +49,7 @@ namespace TravelClient.Core.Services
 
         public async Task<List<LocObj>> GetLocationAsync(string uri)
         {
-            var json = await client.GetStringAsync(uri);
+            var json = await baselessClient.GetStringAsync(uri);
 
             dynamic model = await Task.Run(() => JsonConvert.DeserializeObject(json));
 
@@ -66,7 +69,7 @@ namespace TravelClient.Core.Services
 
         public async Task<string> GetImageAsync(string v)
         {
-            var json = await client.GetStringAsync(v);
+            var json = await baselessClient.GetStringAsync(v);
 
             dynamic model = await Task.Run(() => JsonConvert.DeserializeObject(json));
 
@@ -111,7 +114,7 @@ namespace TravelClient.Core.Services
             var serializedItem = JsonConvert.SerializeObject(item);
 
             var response = await client.PostAsync(uri, new StringContent(serializedItem, Encoding.UTF8, "application/json"));
-            
+
             return response.Content.ReadAsStringAsync().Result;
         }
 

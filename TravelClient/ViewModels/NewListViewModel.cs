@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TravelClient.Core.Helpers;
 using TravelClient.Core.Models;
 using TravelClient.Core.Models.requests;
 using TravelClient.Core.Services;
@@ -25,8 +26,9 @@ namespace TravelClient.ViewModels
         public ObservableBitmapImage Image { get; set; } = new ObservableBitmapImage();
 
         List<LocObj> locs = new List<LocObj>();
-        HttpDataService http = new HttpDataService();
-    
+
+        HttpDataService http = Singleton<HttpDataService>.Instance;
+
         public string AutoSuggestionBoxText
         {
             get { return _autoSuggestionBoxText; }
@@ -96,7 +98,7 @@ namespace TravelClient.ViewModels
 
         private async void CreateList()
         {
-            string response = await http.PostAsJsonAsync("http://localhost:5000/api/TravelList/CreateTravelList", AddList, null);
+            string response = await http.PostAsJsonAsync("TravelList/CreateTravelList", AddList, null);
             NavigationService.Navigate<TravelListDetail>(response);
         }
     }
