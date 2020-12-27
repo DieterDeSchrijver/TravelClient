@@ -13,15 +13,14 @@ namespace TravelClient.ViewModels
 {
     public class CategoriesViewModel
     {
-        public Category NewCategory;
+        public string NewCategoryName { get; set; }
         public ICommand AddCategoryCommand { get; set; }
-        public List<Category> Categories { get; set; } 
+        public ObservableCollection<Category> Categories { get; set; } 
         HttpDataService http = new HttpDataService();
         public string s = String.Empty;
         public CategoriesViewModel()
         {
-            Categories =  new List<Category>();
-            NewCategory = new Category("");
+            Categories =  new ObservableCollection<Category>();
             AddCategoryCommand = new RelayCommand(AddCategory, true);
             Task task = Task.Run(async () =>
             {
@@ -35,15 +34,14 @@ namespace TravelClient.ViewModels
 
         public async void FetchCategories()
         {
-            Categories.Add(NewCategory);
 
         }
 
         private async void AddCategory()
         {
-            string response = await http.PostAsJsonAsync("http://localhost:5000/api/User/AddCategory", NewCategory, s);
-            FetchCategories();
-            NewCategory = new Category("");
+            string response = await http.PostAsJsonAsync("http://localhost:5000/api/User/AddCategory", new Category(NewCategoryName), s);
+            Categories.Add(new Category(NewCategoryName));
+            NewCategoryName = "";
         }
     }
 }
