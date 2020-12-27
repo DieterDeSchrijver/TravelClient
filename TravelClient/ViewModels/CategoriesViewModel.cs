@@ -9,6 +9,7 @@ using System.Windows.Input;
 using TravelClient.Core.Helpers;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
+using TravelClient.Services;
 
 namespace TravelClient.ViewModels
 {
@@ -17,27 +18,18 @@ namespace TravelClient.ViewModels
         public ObservableString NewCategoryName { get; set; }
         public ICommand AddCategoryCommand { get; set; }
         public ObservableCollection<Category> Categories { get; set; }
-        HttpDataService http = Singleton<HttpDataService>.Instance;
-        public string s = String.Empty;
         public CategoriesViewModel()
         {
             NewCategoryName = new ObservableString();
             Categories =  new ObservableCollection<Category>();
             AddCategoryCommand = new RelayCommand(AddCategory, true);
-            Task task = Task.Run(async () =>
-            {
-                Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-                Windows.Storage.StorageFile currentUser = await storageFolder.GetFileAsync("currentUser");
-                s = await Windows.Storage.FileIO.ReadTextAsync(currentUser);
-            });
-            task.Wait(); // Wait
             FetchCategories();
 
         }
 
         public async void FetchCategories()
         {
-            var x = await http.GetAsync<List<Category>>($"User/GetCategories", s);
+            var x = await HttpServiceSingleton.GetInstance.GetAsync<List<Category>>($"User/GetCategories");
             Categories.Clear();
             x.ForEach(a =>
             {
@@ -48,7 +40,7 @@ namespace TravelClient.ViewModels
 
         private async void AddCategory()
         {
-            string response = await http.PostAsJsonAsync("User/AddCategory", new Category(NewCategoryName.Value), s);
+            string response = await HttpServiceSingleton.GetInstance.PostAsJsonAsync("User/AddCategory", new Category(NewCategoryName.Value));
             FetchCategories();
             NewCategoryName.Value = "";
         }

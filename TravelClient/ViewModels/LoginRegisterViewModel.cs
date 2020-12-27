@@ -17,7 +17,6 @@ namespace TravelClient.ViewModels
 
     public class LoginRegisterViewModel
     {
-        public HttpDataService http { get; set; } = Singleton<HttpDataService>.Instance;
         public LoginRequestModel LoginModel { get; set; }
         public RegisterRequestModel RegisterModel { get; set; }
         public UserService userService = Singleton<UserService>.Instance;
@@ -37,7 +36,7 @@ namespace TravelClient.ViewModels
 
         private void Register()
         {
-            var response = http.PostAsJsonAsync("User/Register", RegisterModel, null);
+            var response = HttpServiceSingleton.GetInstance.PostAsJsonAsync("User/Register", RegisterModel);
         }
 
         private void Login() {
@@ -45,7 +44,7 @@ namespace TravelClient.ViewModels
              HttpResponseMessage response = new HttpResponseMessage();
              Task task = Task.Run(async () =>
              {
-                  response = await http.Login<LoginRequestModel>("User/login", LoginModel); // sends GET request
+                  response = await HttpServiceSingleton.GetInstance.Login<LoginRequestModel>("User/login", LoginModel); // sends GET request
 
              });
              task.Wait(); // Wait
@@ -58,6 +57,7 @@ namespace TravelClient.ViewModels
                  Task t = Task.Run(async () =>   
                  {
                      userService.SaveUser(response.Content.ReadAsStringAsync().Result);
+                     HttpServiceSingleton.GetInstance.AddAuthorizationHeader(response.Content.ReadAsStringAsync().Result);
                  });
                  t.Wait();
                  ShellPage.Current.ShowPanel();

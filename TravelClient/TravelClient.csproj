@@ -159,6 +159,7 @@
     <Compile Include="Helpers\TimeConverter.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
+    <Compile Include="Services\HttpServiceSingleton.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />

@@ -27,8 +27,6 @@ namespace TravelClient.ViewModels
 
         List<LocObj> locs = new List<LocObj>();
 
-        HttpDataService http = Singleton<HttpDataService>.Instance;
-
         public string AutoSuggestionBoxText
         {
             get { return _autoSuggestionBoxText; }
@@ -70,7 +68,7 @@ namespace TravelClient.ViewModels
         {
             Task t = Task.Run(async () =>
             {
-                locs = await http.GetLocationAsync($"https://api.mapbox.com/geocoding/v5/mapbox.places/{text}.json?access_token=pk.eyJ1IjoiZGlldGVyZHMiLCJhIjoiY2tpMGRlMTVmMDBvMjMwa2JveWYwY3k3eSJ9.I9Y9bm0oMnQJyshyZTKMdQ&autocomplete=true&limit=5");
+                locs = await HttpServiceSingleton.GetInstance.GetLocationAsync($"https://api.mapbox.com/geocoding/v5/mapbox.places/{text}.json?access_token=pk.eyJ1IjoiZGlldGVyZHMiLCJhIjoiY2tpMGRlMTVmMDBvMjMwa2JveWYwY3k3eSJ9.I9Y9bm0oMnQJyshyZTKMdQ&autocomplete=true&limit=5");
             });
             t.Wait();
             Suggestions.Clear();
@@ -87,7 +85,7 @@ namespace TravelClient.ViewModels
             {
                 LocationSuggestBox.Value = arg.ChosenSuggestion.ToString();
                 LocObj location = locs.Find(l => l.LocationNameLong == arg.ChosenSuggestion.ToString());
-                var chosenLocImage = await http.GetImageAsync($"https://api.unsplash.com/search/photos?query={location.LocationNameShort}&client_id=TiZc8-TmzwTTAO3vLdLw4PNX6nzwtFnF7UKotCLsumU&per_page=1");
+                var chosenLocImage = await HttpServiceSingleton.GetInstance.GetImageAsync($"https://api.unsplash.com/search/photos?query={location.LocationNameShort}&client_id=TiZc8-TmzwTTAO3vLdLw4PNX6nzwtFnF7UKotCLsumU&per_page=1");
                 Image.Value = new BitmapImage(new Uri(chosenLocImage)); 
             }
             else
@@ -98,7 +96,7 @@ namespace TravelClient.ViewModels
 
         private async void CreateList()
         {
-            string response = await http.PostAsJsonAsync("TravelList/CreateTravelList", AddList, null);
+            string response = await HttpServiceSingleton.GetInstance.PostAsJsonAsync("TravelList/CreateTravelList", AddList);
             NavigationService.Navigate<TravelListDetail>(response);
         }
     }

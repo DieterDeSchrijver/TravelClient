@@ -53,10 +53,6 @@ namespace TravelClient.Views
             set { Set(ref _categories, value); }
         }
 
-
-
-        HttpDataService http = new HttpDataService();
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public TravelListDetail()
@@ -67,19 +63,10 @@ namespace TravelClient.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            string s = "";
-            var id = e.Parameter;
+            var id = e.Parameter;    
 
-            Task task = Task.Run(async () =>
-            {
-                Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-                Windows.Storage.StorageFile currentUser = await storageFolder.GetFileAsync("currentUser");
-                s = await Windows.Storage.FileIO.ReadTextAsync(currentUser);
-            });
-            task.Wait(); // Wait     
-
-            TravelList = await http.GetAsync<TravelList>($"http://localhost:5000/api/TravelList/{id}", s);
-            Categories = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories", s);
+            TravelList = await HttpServiceSingleton.GetInstance.GetAsync<TravelList>($"TravelList/{id}");
+            Categories = await HttpServiceSingleton.GetInstance.GetAsync<List<Category>>($"User/GetCategories");
             Items = TravelList.Items;
 
             PopulateListView();
