@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TravelClient.Core.Helpers;
 using TravelClient.Core.Models.requests;
 using TravelClient.Core.Services;
 using TravelClient.Services;
@@ -19,6 +20,7 @@ namespace TravelClient.ViewModels
         public HttpDataService http { get; set; } = new HttpDataService();
         public LoginRequestModel LoginModel { get; set; }
         public RegisterRequestModel RegisterModel { get; set; }
+        public UserService userService = Singleton<UserService>.Instance;
 
         #region Commands
         public ICommand LoginCommand { get; set; }
@@ -55,9 +57,7 @@ namespace TravelClient.ViewModels
              {
                  Task t = Task.Run(async () =>   
                  {
-                     Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-                     Windows.Storage.StorageFile currentUser = await storageFolder.GetFileAsync("currentUser");
-                     await Windows.Storage.FileIO.WriteTextAsync(currentUser, response.Content.ReadAsStringAsync().Result);
+                     userService.SaveUser(response.Content.ReadAsStringAsync().Result);
                  });
                  t.Wait();
                  ShellPage.Current.ShowPanel();
