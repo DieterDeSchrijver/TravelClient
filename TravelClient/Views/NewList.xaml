@@ -6,7 +6,7 @@
     xmlns:helper="using:TravelClient.Helpers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tc="using:TravelClient.Helpers"
+    xmlns:tc="using:TravelClient.Helpers" xmlns:interactivity="using:Microsoft.Xaml.Interactivity" xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -21,9 +21,14 @@
                 Margin="10"
                 ItemsSource="{x:Bind ViewModel.Suggestions}"
                 Text="{x:Bind ViewModel.AutoSuggestionBoxText, Mode=TwoWay}"
-                QueryIcon="Find"
-                />
-            <Image Width="250" Height="250" x:Name="image" Stretch="UniformToFill"></Image>
+                QueryIcon="Find">
+                <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="QuerySubmitted">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Query}" />
+                </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+            </AutoSuggestBox>
+            <Image Source="{x:Bind ViewModel.Image.Value, Mode=OneWay}" Width="250" Height="250" x:Name="image" Stretch="UniformToFill"></Image>
 
             <RelativePanel Width="298">
                 <CalendarDatePicker x:Name="startDate" Margin="10" Date="{x:Bind ViewModel.NewListRequest.StartDate, Mode=TwoWay, Converter={StaticResource ResourceKey=TimeConverter}}" PlaceholderText="Start Date" Header="Start Date" />
