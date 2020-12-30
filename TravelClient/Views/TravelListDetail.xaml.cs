@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
+using TravelClient.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,37 +29,9 @@ namespace TravelClient.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TravelListDetail : Page, INotifyPropertyChanged
+    public sealed partial class TravelListDetail : Page
     {
-        private TravelList _travelList;
-        private List<TravelItem> _items;
-        private List<Category> _categories;
-
-        public List<TravelItem> Items
-        {
-            get { return _items; }
-            set { Set(ref _items, value); }
-        }
-
-
-        public TravelList TravelList
-        {
-            get { return _travelList; }
-            set { Set(ref _travelList, value); }
-        }
-
-        public List<Category> Categories
-        {
-            get { return _categories; }
-            set { Set(ref _categories, value); }
-        }
-
-
-
-        HttpDataService http = new HttpDataService();
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        public TravelListDetailViewModel ViewModel { get; set; }
         public TravelListDetail()
         {
             this.InitializeComponent();
@@ -67,140 +40,8 @@ namespace TravelClient.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            string s = "";
-            var id = e.Parameter;
-
-            Task task = Task.Run(async () =>
-            {
-                Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-                Windows.Storage.StorageFile currentUser = await storageFolder.GetFileAsync("currentUser");
-                s = await Windows.Storage.FileIO.ReadTextAsync(currentUser);
-            });
-            task.Wait(); // Wait     
-
-            TravelList = await http.GetAsync<TravelList>($"http://localhost:5000/api/TravelList/{id}", s);
-            Categories = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories", s);
-            Items = TravelList.Items;
-
-            PopulateListView();
-        }
-
-        private void PopulateListView()
-        {
-            errorMessage.Text = "";
-            Items = Items.OrderBy(i => i.Completed).ThenBy(i => i.Name).ToList(); 
-            
-            CalculateProgress();
-        }
-
-        private void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
-
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-            if (e.NavigationMode == NavigationMode.Back)
-            {
-                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(TravelList);
-            }
-        }
-
-        public void CalculateProgress()
-        {
-            if (Items.Count(i => i.Completed == false) == 0)
-            {
-                bar.Value = 100;
-            }
-            else
-            {
-                bar.Value = (double)Items.Count(i => i.Completed == true) / Items.Count() * 100;
-            }
-        }
-
-
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            addPane.IsPaneOpen = !addPane.IsPaneOpen;
-        }
-
-        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (itemListView.SelectedItem == null)
-            {
-                FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
-            }
-            else
-            {
-                if (SettingsService.DeleteItemSetting)
-                {
-                    ContentDialog deleteItem = new ContentDialog
-                    {
-                        Title = "Delete item from list",
-                        Content = "You can change your preferences in the settings?",
-                        CloseButtonText = "Cancel",
-                        PrimaryButtonText = "Delete",
-                        SecondaryButtonText = "Never show again",
-                        DefaultButton = ContentDialogButton.Primary
-                    };
-
-                    ContentDialogResult result = await deleteItem.ShowAsync();
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        DeleteItem();
-                    }
-                    if (result == ContentDialogResult.Secondary)
-                    {
-                        SettingsService.ChangeDeleteItemSetting(false);
-                        DeleteItem();
-                    }
-                    if (result == ContentDialogResult.None)
-                    {
-                        
-                    }
-
-                }
-                if (!SettingsService.DeleteItemSetting)
-                {
-                    DeleteItem();
-                }
-            }            
-        }
-
-        private void DeleteItem()
-        {
-                TravelItem ti = (TravelItem)itemListView.SelectedItem;
-                Items.Remove(ti);
-                //TODO HTTP
-                PopulateListView();
-        }
-
-        private void checkbox_toggle(object sender, RoutedEventArgs e)
-        {
-            PopulateListView();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (String.IsNullOrEmpty(newItemName.Text) || cmbox.SelectedItem == null)
-            {
-                addItemErrorMessage.Text = "please fill in all fields.";
-            }
-            else
-            {
-                
-            }
+            var id =(string) e.Parameter;
+            ViewModel = new TravelListDetailViewModel(id);
         }
     }
 }

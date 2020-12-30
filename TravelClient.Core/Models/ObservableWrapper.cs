@@ -2,15 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace TravelClient.Core.Models
 {
-    public class ObservableBitmapImage : ObservableObject
+    public class ObservableWrapper<T> : ObservableObject
     {
-        private BitmapImage _value;
 
-        public BitmapImage Value
+        private T _value;
+
+        public T Value
         {
             get { return _value; }
             set { Set("Value", ref _value, value); }

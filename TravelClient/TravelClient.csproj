@@ -169,6 +169,7 @@
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\NewListViewModel.cs" />
     <Compile Include="ViewModels\LoginRegisterViewModel.cs" />
+    <Compile Include="ViewModels\TravelListDetailViewModel.cs" />
     <Compile Include="Views\AccountSettings.xaml.cs">
       <DependentUpon>AccountSettings.xaml</DependentUpon>
     </Compile>
@@ -199,7 +200,6 @@
     <Compile Include="Views\TravelListOverview.xaml.cs">
       <DependentUpon>TravelListOverview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TravelListDetailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

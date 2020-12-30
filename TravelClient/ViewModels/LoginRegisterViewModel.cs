@@ -29,7 +29,7 @@ namespace TravelClient.ViewModels
 
         public LoginRegisterViewModel()
         {
-            this.LoginModel = new LoginRequestModel("", "");
+            this.LoginModel = new LoginRequestModel("dieter@gmail.com", "test");
             this.RegisterModel = new RegisterRequestModel("", "", "");
             LoginCommand = new RelayCommand(Login, true);
             RegisterCommand = new RelayCommand(Register, true);

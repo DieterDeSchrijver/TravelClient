@@ -14,14 +14,14 @@ namespace TravelClient.ViewModels
 {
     public class CategoriesViewModel
     {
-        public ObservableString NewCategoryName { get; set; }
+        public ObservableWrapper<string> NewCategoryName { get; set; }
         public ICommand AddCategoryCommand { get; set; }
         public ObservableCollection<Category> Categories { get; set; }
         HttpDataService http = Singleton<HttpDataService>.Instance;
         public string s = String.Empty;
         public CategoriesViewModel()
         {
-            NewCategoryName = new ObservableString();
+            NewCategoryName = new ObservableWrapper<string>();
             Categories =  new ObservableCollection<Category>();
             AddCategoryCommand = new RelayCommand(AddCategory, true);
             Task task = Task.Run(async () =>

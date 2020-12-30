@@ -23,7 +23,7 @@ namespace TravelClient.ViewModels
         private string _autoSuggestionBoxText;
         public ObservableCollection<String> Suggestions { get; set; } = new ObservableCollection<string>();
         public NewListRequest NewListRequest { get; set; } = new NewListRequest();
-        public ObservableBitmapImage Image { get; set; } = new ObservableBitmapImage();
+        public ObservableWrapper<BitmapImage> Image { get; set; } = new ObservableWrapper<BitmapImage>();
 
         List<LocObj> locs = new List<LocObj>();
 
@@ -42,14 +42,14 @@ namespace TravelClient.ViewModels
             }
         }
 
-        public ObservableString LocationSuggestBox { get; set; } = new ObservableString();
+        public ObservableWrapper<string> LocationSuggestBox { get; set; } = new ObservableWrapper<string>();
 
         public ICommand AddList;
         public ICommand Query;
 
         public NewListViewModel()
         {
-            AddList = new RelayCommand(CreateList, true);
+            AddList = new RelayCommand(CreateList);
             Query = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(LocationAutoSuggest_QuerySubmitted);
         }
         public void LocationAutoSuggestTextChanged()
