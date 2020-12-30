@@ -28,7 +28,6 @@ namespace TravelClient.Views
     public sealed partial class TravelListOverview : Page
     {
         public ObservableCollection<TravelList> TravelLists { get; } = new ObservableCollection<TravelList>();
-        private HttpDataService http = Singleton<HttpDataService>.Instance;
 
         public TravelListOverview()
         {
@@ -37,20 +36,12 @@ namespace TravelClient.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            string s = "";
 
-            Task task = Task.Run(async () =>
-            {
-                Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-                Windows.Storage.StorageFile currentUser = await storageFolder.GetFileAsync("currentUser");
-                s = await Windows.Storage.FileIO.ReadTextAsync(currentUser);
-            });
-            task.Wait(); // Wait
 
             base.OnNavigatedTo(e);
 
             
-            var data = await http.GetAsync<List<TravelList>>("TravelList", s);
+            var data = await HttpServiceSingleton.GetInstance.GetAsync<List<TravelList>>("TravelList");
             foreach (TravelList list in data)
             {
                 TravelLists.Add(list);

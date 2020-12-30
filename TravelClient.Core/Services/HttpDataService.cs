@@ -35,12 +35,8 @@ namespace TravelClient.Core.Services
             baselessClient = new HttpClient();
         }
 
-        public async Task<T> GetAsync<T>(string uri, string accessToken = null)
+        public async Task<T> GetAsync<T>(string uri)
         {
-            if (!String.IsNullOrEmpty(accessToken))
-            {
-                AddAuthorizationHeader(accessToken);
-            }
                 T result = default;
                 var json = await client.GetStringAsync(uri);
                 result = await Task.Run(() => JsonConvert.DeserializeObject<T>(json));
@@ -69,7 +65,7 @@ namespace TravelClient.Core.Services
 
         public async Task<string> GetImageAsync(string v)
         {
-            var json = await baselessClient.GetStringAsync(v);
+            var json = await client.GetStringAsync(v);
 
             dynamic model = await Task.Run(() => JsonConvert.DeserializeObject(json));
 
@@ -102,15 +98,8 @@ namespace TravelClient.Core.Services
 
         
 
-        public async Task<string> PostAsJsonAsync<T>(string uri, T item, string jwt = null)
+        public async Task<string> PostAsJsonAsync<T>(string uri, T item)
         {
-
-            if (jwt != null)
-            {
-                AddAuthorizationHeader(jwt);
-            }
-            
-
             var serializedItem = JsonConvert.SerializeObject(item);
 
             var response = await client.PostAsync(uri, new StringContent(serializedItem, Encoding.UTF8, "application/json"));
@@ -155,8 +144,7 @@ namespace TravelClient.Core.Services
             return response.IsSuccessStatusCode;
         }
 
-        // Add this to all public methods
-        private void AddAuthorizationHeader(string token)
+        public void AddAuthorizationHeader(string token)
         {
             token = token.Replace("\"", "");
             if (string.IsNullOrEmpty(token))
