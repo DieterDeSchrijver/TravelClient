@@ -94,7 +94,9 @@
             <maps:MapControl
                 Center="{x:Bind ViewModel.TravelLocation, Mode=OneWay}"
                 ZoomLevel="11"
-                LandmarksVisible="True">
+                LandmarksVisible="True"
+                MapServiceToken="WXi48NdIGZYfksHAskOe~xD_WaanX04tDKviYRaX_zg~AkbNSTm8PD9oHiEJTZ0BkNSWYB5z_0JTCA547zZrzib9JdeyckAowT9I-dVtC-_e"
+>
                 <maps:MapItemsControl>
                     
                 </maps:MapItemsControl>
