@@ -36,12 +36,9 @@ namespace TravelClient.ViewModels
             DeleteItemCommand = new RelayCommand(DeleteItem);
             Items.CollectionChanged += (sender, e) =>  CalculateProgress(); //TODO trigger ook als item in collectie zelf aanpast
             Task task = Task.Run(async () =>
-            {
-                Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
-                Windows.Storage.StorageFile currentUser = await storageFolder.GetFileAsync("currentUser");
-                var s = await Windows.Storage.FileIO.ReadTextAsync(currentUser);
-                TravelList = await http.GetAsync<TravelList>($"http://localhost:5000/api/TravelList/{id}", s);
-                var categories = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories", s);
+            {  
+                TravelList = await http.GetAsync<TravelList>($"http://localhost:5000/api/TravelList/{id}");
+                var categories = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories");
                 categories.ForEach(x =>
                 {
                     Categories.Add(x);
