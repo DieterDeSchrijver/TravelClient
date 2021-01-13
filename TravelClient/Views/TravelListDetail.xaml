@@ -57,7 +57,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="SingleLineDataTemplate" x:DataType="data:TravelItem">
                             <RelativePanel>
-                                <CheckBox x:Name="checkbox" MinWidth="20" Width="20" IsChecked="{x:Bind Completed, Mode=TwoWay}"></CheckBox>
+                                <CheckBox x:Name="checkbox" MinWidth="20" Width="20" IsChecked="{x:Bind Completed, Mode=TwoWay}" Click="checkbox_toggle"></CheckBox>
                                 <TextBlock x:Name="item" RelativePanel.RightOf="checkbox" Text="{x:Bind Name, Mode=TwoWay}" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" Margin="12,0,0,0"/>
                             </RelativePanel>
                         </DataTemplate>
@@ -91,16 +91,7 @@
                     </StackPanel>
                 </SplitView.Pane>
             </SplitView>
-            <maps:MapControl
-                Center="{x:Bind ViewModel.TravelLocation, Mode=OneWay}"
-                ZoomLevel="11"
-                LandmarksVisible="True"
-                MapServiceToken="WXi48NdIGZYfksHAskOe~xD_WaanX04tDKviYRaX_zg~AkbNSTm8PD9oHiEJTZ0BkNSWYB5z_0JTCA547zZrzib9JdeyckAowT9I-dVtC-_e"
->
-                <maps:MapItemsControl>
-                    
-                </maps:MapItemsControl>
-            </maps:MapControl>
+
         </Grid>
     </Grid>
 </Page>

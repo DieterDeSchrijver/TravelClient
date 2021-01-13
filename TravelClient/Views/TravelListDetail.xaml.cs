@@ -43,5 +43,10 @@ namespace TravelClient.Views
             var id =(string) e.Parameter;
             ViewModel = new TravelListDetailViewModel(id);
         }
+
+        private void checkbox_toggle(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CheckboxToggle();
+        }
     }
 }

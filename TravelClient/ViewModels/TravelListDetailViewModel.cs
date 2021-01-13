@@ -57,6 +57,11 @@ namespace TravelClient.ViewModels
             task.Wait();
         }
 
+        internal void CheckboxToggle()
+        {
+            PopulateListView();
+        }
+
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             throw new NotImplementedException();
@@ -64,7 +69,10 @@ namespace TravelClient.ViewModels
 
         private void PopulateListView()
         {
-            Items.OrderBy(i => i.Category.Name).ThenBy(i => i.Completed).ThenBy(i => i.Name).ToList();
+            var x = Items.OrderBy(i => i.Completed).ThenBy(i => i.Name).ToList();
+            Items.Clear();
+            x.ForEach(i => Items.Add(i));
+            
             CalculateProgress();
         }
 
