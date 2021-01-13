@@ -16,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="3*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -29,11 +30,11 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <StackPanel>
                 <TextBlock Margin="10" Text="{x:Bind ViewModel.TravelList.Listname, Mode=OneWay}" FontWeight="Bold" FontSize="32"></TextBlock>
+                <Button Margin="10" Content="Show Destination" Command="{x:Bind ViewModel.ShowDestinationCommand, Mode=OneTime}"/>
                 <TextBlock Margin="10" Text="{x:Bind ViewModel.TravelList.StartDate.ToString(), Mode=OneWay}"></TextBlock>
                 <TextBlock Margin="10" Text="{x:Bind ViewModel.TravelList.StartDate.ToString(), Mode=OneWay}"></TextBlock>
                 <TextBlock Margin="10" Text="{x:Bind ViewModel.TravelList.Description, Mode=OneWay}"></TextBlock>
             </StackPanel>
-
         </Grid>
 
         <Grid Grid.RowSpan="3" Grid.Column="1">
@@ -91,17 +92,11 @@
                     </StackPanel>
                 </SplitView.Pane>
             </SplitView>
-            <maps:MapControl
-                Center="{x:Bind ViewModel.TravelLocation, Mode=OneWay}"
-                ZoomLevel="11"
-                LandmarksVisible="True"
-                MapServiceToken="WXi48NdIGZYfksHAskOe~xD_WaanX04tDKviYRaX_zg~AkbNSTm8PD9oHiEJTZ0BkNSWYB5z_0JTCA547zZrzib9JdeyckAowT9I-dVtC-_e"
->
-                <maps:MapItemsControl>
-                    
-                </maps:MapItemsControl>
-            </maps:MapControl>
+
         </Grid>
+
     </Grid>
+    
+    
 </Page>
 

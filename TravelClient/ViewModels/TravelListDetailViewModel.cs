@@ -11,6 +11,7 @@ using System.Windows.Input;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
+using TravelClient.Views.Dialogs;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,11 +33,13 @@ namespace TravelClient.ViewModels
 
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
+        public ICommand ShowDestinationCommand { get; set; }
 
         public TravelListDetailViewModel(string id)
         {
             AddItemCommand = new RelayCommand(AddItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
+            ShowDestinationCommand = new RelayCommand(ShowDestination);
             Items.CollectionChanged += (sender, e) =>  CalculateProgress(); //TODO trigger ook als item in collectie zelf aanpast
             Task task = Task.Run(async () =>
             {  
@@ -55,6 +58,17 @@ namespace TravelClient.ViewModels
 
             });
             task.Wait();
+        }
+
+        private void ShowDestination()
+        {
+            MapDialog mapDialog = new MapDialog(TravelLocation)
+            {
+                Title = "Route",
+                CloseButtonText = "Close",
+            };
+
+            var result = mapDialog.ShowAsync();
         }
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
