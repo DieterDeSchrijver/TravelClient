@@ -11,6 +11,7 @@ using System.Windows.Input;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
+using Windows.Devices.Geolocation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
@@ -19,7 +20,7 @@ namespace TravelClient.ViewModels
     public class TravelListDetailViewModel
     {
         HttpDataService http = new HttpDataService();
-
+        public Geopoint TravelLocation { get; set; }
         public ObservableWrapper<double> Progress { get; set; } = new ObservableWrapper<double>();
         public ObservableCollection<TravelItem> Items { get; set; } = new ObservableCollection<TravelItem>();
         public ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
@@ -38,6 +39,7 @@ namespace TravelClient.ViewModels
             Task task = Task.Run(async () =>
             {  
                 TravelList = await http.GetAsync<TravelList>($"http://localhost:5000/api/TravelList/{id}");
+                TravelLocation = new Geopoint(new BasicGeoposition() { Latitude = TravelList.Location.LatCoord, Longitude = TravelList.Location.LngCoord})
                 var categories = await http.GetAsync<List<Category>>($"http://localhost:5000/api/User/GetCategories");
                 categories.ForEach(x =>
                 {

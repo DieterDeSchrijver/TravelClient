@@ -8,7 +8,7 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -36,7 +36,7 @@
 
         </Grid>
 
-        <Grid Grid.RowSpan="2" Grid.Column="1">
+        <Grid Grid.RowSpan="3" Grid.Column="1">
             <RelativePanel>
                 <CommandBar x:Name="commandBar">
                     <AppBarButton Icon="Add" Label="Add Item" Command="{x:Bind ViewModel.AddItemCommand}">
@@ -91,6 +91,14 @@
                     </StackPanel>
                 </SplitView.Pane>
             </SplitView>
+            <maps:MapControl
+                Center="{x:Bind ViewModel.TravelLocation, Mode=OneWay}"
+                ZoomLevel="11"
+                LandmarksVisible="True">
+                <maps:MapItemsControl>
+                    
+                </maps:MapItemsControl>
+            </maps:MapControl>
         </Grid>
     </Grid>
 </Page>
