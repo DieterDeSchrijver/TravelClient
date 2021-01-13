@@ -18,7 +18,7 @@ namespace TravelClient.ViewModels
 {
     public class TravelListDetailViewModel
     {
-        HttpDataService http = new HttpDataService();
+        HttpDataService http = HttpServiceSingleton.GetInstance;
 
         public ObservableWrapper<double> Progress { get; set; } = new ObservableWrapper<double>();
         public ObservableCollection<TravelItem> Items { get; set; } = new ObservableCollection<TravelItem>();

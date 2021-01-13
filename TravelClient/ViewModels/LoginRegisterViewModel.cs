@@ -45,7 +45,6 @@ namespace TravelClient.ViewModels
              Task task = Task.Run(async () =>
              {
                   response = await HttpServiceSingleton.GetInstance.Login<LoginRequestModel>("User/login", LoginModel); // sends GET request
-
              });
              task.Wait(); // Wait
              if (!response.IsSuccessStatusCode)
@@ -57,7 +56,7 @@ namespace TravelClient.ViewModels
                  Task t = Task.Run(async () =>   
                  {
                      userService.SaveUser(response.Content.ReadAsStringAsync().Result);
-                     HttpServiceSingleton.GetInstance.AddAuthorizationHeader(response.Content.ReadAsStringAsync().Result);
+                     HttpServiceSingleton.GetInstance.SetJwtToken(response.Content.ReadAsStringAsync().Result);
                  });
                  t.Wait();
                  ShellPage.Current.ShowPanel();

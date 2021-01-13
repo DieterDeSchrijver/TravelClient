@@ -11,6 +11,5 @@ namespace TravelClient.Services
     public class HttpServiceSingleton
     {
         public static HttpDataService GetInstance { get; set; } = Singleton<HttpDataService>.Instance;
-        UserService userService = Singleton<UserService>.Instance;
     }
 }

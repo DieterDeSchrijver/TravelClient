@@ -17,6 +17,7 @@ namespace TravelClient.Core.Services
         private readonly Dictionary<string, object> responseCache;
         private HttpClient client;
         private HttpClient baselessClient;
+        private string jwtToken;
         
 
         public HttpDataService()
@@ -37,6 +38,7 @@ namespace TravelClient.Core.Services
 
         public async Task<T> GetAsync<T>(string uri)
         {
+            AddAuthorizationHeader();
                 T result = default;
                 var json = await client.GetStringAsync(uri);
                 result = await Task.Run(() => JsonConvert.DeserializeObject<T>(json));
@@ -82,6 +84,7 @@ namespace TravelClient.Core.Services
 
         public async Task<bool> PostAsync<T>(string uri, T item)
         {
+            AddAuthorizationHeader();
             if (item == null)
             {
                 return false;
@@ -100,6 +103,7 @@ namespace TravelClient.Core.Services
 
         public async Task<string> PostAsJsonAsync<T>(string uri, T item)
         {
+            AddAuthorizationHeader();
             var serializedItem = JsonConvert.SerializeObject(item);
 
             var response = await client.PostAsync(uri, new StringContent(serializedItem, Encoding.UTF8, "application/json"));
@@ -109,6 +113,7 @@ namespace TravelClient.Core.Services
 
         public async Task<bool> PutAsync<T>(string uri, T item)
         {
+            AddAuthorizationHeader();
             if (item == null)
             {
                 return false;
@@ -125,6 +130,7 @@ namespace TravelClient.Core.Services
 
         public async Task<bool> PutAsJsonAsync<T>(string uri, T item)
         {
+            AddAuthorizationHeader();
             if (item == null)
             {
                 return false;
@@ -139,21 +145,27 @@ namespace TravelClient.Core.Services
 
         public async Task<bool> DeleteAsync(string uri)
         {
+            AddAuthorizationHeader();
             var response = await client.DeleteAsync(uri);
 
             return response.IsSuccessStatusCode;
         }
 
-        public void AddAuthorizationHeader(string token)
+        public void SetJwtToken(string jwtToken)
         {
-            token = token.Replace("\"", "");
-            if (string.IsNullOrEmpty(token))
+            this.jwtToken = jwtToken;
+        }
+
+        public void AddAuthorizationHeader()
+        {
+
+            if (string.IsNullOrEmpty(jwtToken))
             {
                 client.DefaultRequestHeaders.Authorization = null;
                 return;
             }
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            jwtToken = jwtToken.Replace("\"", "");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
         }
     }
 }
