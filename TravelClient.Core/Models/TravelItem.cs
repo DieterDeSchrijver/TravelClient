@@ -9,5 +9,6 @@ namespace TravelClient.Core.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public Boolean Completed { get; set; }
+        public Category Category { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace TravelClient.ViewModels
 
         private void PopulateListView()
         {
-            Items.OrderBy(i => i.Completed).ThenBy(i => i.Name).ToList();
+            Items.OrderBy(i => i.Category.Name).ThenBy(i => i.Completed).ThenBy(i => i.Name).ToList();
             CalculateProgress();
         }
 
@@ -132,6 +132,7 @@ namespace TravelClient.ViewModels
         */
         private void AddItem()
         {
+            //TODO HTTP
             var newItemName = new TextBox();
             if (String.IsNullOrEmpty(newItemName.Text) /*|| cmbox.SelectedItem == null*/)
             {
