@@ -175,9 +175,6 @@
     <Compile Include="Views\AccountSettings.xaml.cs">
       <DependentUpon>AccountSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddItem.xaml.cs">
-      <DependentUpon>AddItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Categories.xaml.cs">
       <DependentUpon>Categories.xaml</DependentUpon>
     </Compile>
@@ -231,10 +228,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AccountSettings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

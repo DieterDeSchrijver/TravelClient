@@ -52,13 +52,18 @@ namespace TravelClient.Views
                 task.Wait();
                 pos = task.Result;
             }
-
             ViewModel = new TravelListDetailViewModel(id, pos);
         }
 
         private void checkbox_toggle(object sender, RoutedEventArgs e)
         {
             ViewModel.CheckboxToggle();
+        }
+
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            addPane.IsPaneOpen = !addPane.IsPaneOpen;
         }
     }
 }

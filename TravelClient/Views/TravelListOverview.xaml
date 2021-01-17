@@ -29,6 +29,7 @@
 
                 <controls:AdaptiveGridView.ItemTemplate>
 
+                    <DataTemplate x:DataType="data:TravelList">
                         <StackPanel>
                             <Image Stretch="UniformToFill" Source="{x:Bind Location.ImageSource, Mode=OneWay}"></Image>
                             <TextBlock Text="{x:Bind Listname, Mode=OneWay}" Width="400" Height="20"></TextBlock>

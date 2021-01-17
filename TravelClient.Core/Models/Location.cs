@@ -12,9 +12,12 @@ namespace TravelClient.Core.Models
         public float LngCoord { get; set; }
         public float LatCoord { get; set; }
         public DateTime LocalTime { get; set; }
-        public string ImageURL { get; set; } = "";
+        public string ImageURL { get; set; }
         public BitmapImage ImageSource {
-             get {return new BitmapImage(new Uri(ImageURL)); }
+             get {
+                var x = ImageURL ?? "https://unsplash.com/photos/okz_PbR7yl4w";
+                return new BitmapImage(new Uri(x));
+            }
         }
             
 

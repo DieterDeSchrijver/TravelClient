@@ -24,7 +24,7 @@ namespace TravelClient.ViewModels
         public Geopoint UserLocation { get; set; }
 
         HttpDataService http = HttpServiceSingleton.GetInstance;
-
+        public ObservableWrapper<TravelItem> ItemToAdd { get; set; } = new ObservableWrapper<TravelItem>() { Value = new TravelItem() };
         public ObservableWrapper<double> Progress { get; set; } = new ObservableWrapper<double>();
         public ObservableCollection<TravelItem> Items { get; set; } = new ObservableCollection<TravelItem>();
         public ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
@@ -59,6 +59,7 @@ namespace TravelClient.ViewModels
 
             });
             task.Wait();
+            PopulateListView();
         }
 
         private void ShowDestination()
@@ -139,7 +140,8 @@ namespace TravelClient.ViewModels
         private void DeleteItemCall()
         {
             Items.Remove(SelectedItem.Value);
-            //TODO HTTP
+            TravelList.Items = Items.ToList();
+            UpdateList();
             PopulateListView();
         }
 
@@ -150,16 +152,15 @@ namespace TravelClient.ViewModels
         */
         private void AddItem()
         {
-            //TODO HTTP
-            var newItemName = new TextBox();
-            if (String.IsNullOrEmpty(newItemName.Text) /*|| cmbox.SelectedItem == null*/)
-            {
-             //   addItemErrorMessage.Text = "please fill in all fields.";
-            }
-            else
-            {
+            Items.Add(ItemToAdd.Value);
+            TravelList.Items = Items.ToList();
+            ItemToAdd.Value = new TravelItem();
+            UpdateList();
+        }
 
-            }
+        private void UpdateList()
+        {
+            var x = http.PostAsJsonAsync<TravelList>("TravelList/EditTravelList", this.TravelList);
         }
 
     }

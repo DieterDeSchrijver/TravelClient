@@ -40,7 +40,7 @@
         <Grid Grid.RowSpan="3" Grid.Column="1">
             <RelativePanel>
                 <CommandBar x:Name="commandBar">
-                    <AppBarButton Icon="Add" Label="Add Item" Command="{x:Bind ViewModel.AddItemCommand}">
+                    <AppBarButton Icon="Add" Label="Add Item" Click="AddButton_Click" >
                         
                     </AppBarButton>
                     <AppBarButton Icon="Delete" Label="Delete" Command="{x:Bind ViewModel.DeleteItemCommand}">
@@ -77,15 +77,9 @@
                        FontSize="24"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
-                        <TextBox x:Name="newItemName" Margin="10" Header="Item Name"></TextBox>
-                        <ComboBox Margin="10" Header="Category" ItemsSource="{x:Bind ViewModel.Categories, Mode=TwoWay}" Name="cmbox" Width="200">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="data:Category">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{x:Bind Name, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
+                        <TextBox Text="{x:Bind ViewModel.ItemToAdd.Value.Name, Mode=TwoWay}" Margin="10" Header="Item Name"></TextBox>
+                        <ComboBox Margin="10" Header="Category" ItemsSource="{x:Bind ViewModel.Categories, Mode=TwoWay}" DisplayMemberPath="Name" SelectedValuePath="Name" Width="200">
+
                         </ComboBox>
                         <Button Margin="10" Content="ADD ITEM" Command="{x:Bind ViewModel.AddItemCommand}"></Button>
                         <TextBlock Foreground="Red" x:Name="addItemErrorMessage" Text=""></TextBlock>
