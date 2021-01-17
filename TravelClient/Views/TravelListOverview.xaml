@@ -23,13 +23,12 @@
             IsItemClickEnabled="True"
             ItemClick="OnItemClick"
             ItemHeight="200"
-            ItemsSource="{x:Bind TravelLists,Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.TravelLists,Mode=OneWay}"
             SelectionMode="None"
             StretchContentForSingleRow="False">
 
                 <controls:AdaptiveGridView.ItemTemplate>
 
-                    <DataTemplate x:DataType="data:TravelList">
                         <StackPanel>
                             <Image Stretch="UniformToFill" Source="{x:Bind Location.ImageSource, Mode=OneWay}"></Image>
                             <TextBlock Text="{x:Bind Listname, Mode=OneWay}" Width="400" Height="20"></TextBlock>
@@ -40,7 +39,7 @@
 
             </controls:AdaptiveGridView>
             <StackPanel RelativePanel.Below="agv">
-                <Button  x:Name="signInButton" Width="100" Content="ADD ITEM" Margin="20" Click="NewListButton_Click"></Button>
+                <Button  x:Name="signInButton" Width="100" Content="ADD ITEM" Margin="20" Command="{x:Bind ViewModel.MakeNewListCommand, Mode=OneTime}"></Button>
             </StackPanel>
         </RelativePanel>
         

@@ -171,6 +171,7 @@
     <Compile Include="ViewModels\NewListViewModel.cs" />
     <Compile Include="ViewModels\LoginRegisterViewModel.cs" />
     <Compile Include="ViewModels\TravelListDetailViewModel.cs" />
+    <Compile Include="ViewModels\TravelListOverviewViewModel.cs" />
     <Compile Include="Views\AccountSettings.xaml.cs">
       <DependentUpon>AccountSettings.xaml</DependentUpon>
     </Compile>

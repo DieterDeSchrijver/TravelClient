@@ -11,6 +11,7 @@ using TravelClient.Core.Helpers;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
+using TravelClient.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -27,26 +28,13 @@ namespace TravelClient.Views
 {
     public sealed partial class TravelListOverview : Page
     {
-        public ObservableCollection<TravelList> TravelLists { get; } = new ObservableCollection<TravelList>();
-
+        public TravelListOverviewViewModel ViewModel { get; set; }
         public TravelListOverview()
         {
+            ViewModel = new TravelListOverviewViewModel();
             this.InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-
-
-            base.OnNavigatedTo(e);
-
-            
-            var data = await HttpServiceSingleton.GetInstance.GetAsync<List<TravelList>>("TravelList");
-            foreach (TravelList list in data)
-            {
-                TravelLists.Add(list);
-            }
-        }
 
         private void OnItemClick(object sender, ItemClickEventArgs e)
         {
@@ -57,9 +45,5 @@ namespace TravelClient.Views
             }
         }
 
-        private void NewListButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate<NewList>();
-        }
     }
 }
