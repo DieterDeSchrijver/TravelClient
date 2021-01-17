@@ -21,6 +21,7 @@ namespace TravelClient.ViewModels
     public class TravelListDetailViewModel
     {
         public Geopoint TravelLocation { get; set; }
+        public Geopoint UserLocation { get; set; }
 
         HttpDataService http = HttpServiceSingleton.GetInstance;
 
@@ -35,11 +36,12 @@ namespace TravelClient.ViewModels
         public ICommand DeleteItemCommand { get; set; }
         public ICommand ShowDestinationCommand { get; set; }
 
-        public TravelListDetailViewModel(string id)
+        public TravelListDetailViewModel(string id, Geoposition position)
         {
+            UserLocation = new Geopoint(new BasicGeoposition() { Longitude = position.Coordinate.Longitude, Latitude = position.Coordinate.Latitude });
             AddItemCommand = new RelayCommand(AddItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
-            ShowDestinationCommand = new RelayCommand(ShowDestination);
+            ShowDestinationCommand = new RelayCommand(ShowDestinationAsync);
             Items.CollectionChanged += (sender, e) =>  CalculateProgress(); //TODO trigger ook als item in collectie zelf aanpast
             Task task = Task.Run(async () =>
             {  
@@ -60,9 +62,10 @@ namespace TravelClient.ViewModels
             task.Wait();
         }
 
-        private void ShowDestination()
+        private void ShowDestinationAsync()
         {
-            MapDialog mapDialog = new MapDialog(TravelLocation)
+
+            MapDialog mapDialog = new MapDialog(TravelLocation, UserLocation)
             {
                 Title = "Route",
                 CloseButtonText = "Close",

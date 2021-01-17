@@ -12,6 +12,7 @@ using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
 using TravelClient.ViewModels;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -41,7 +42,18 @@ namespace TravelClient.Views
         {
             base.OnNavigatedTo(e);
             var id =(string) e.Parameter;
-            ViewModel = new TravelListDetailViewModel(id);
+            var accessStatusTask = Geolocator.RequestAccessAsync().AsTask();
+            accessStatusTask.Wait();
+            Geoposition pos = null;
+            if(accessStatusTask.Result == GeolocationAccessStatus.Allowed)
+            {
+                Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = 1 };
+                var task = geolocator.GetGeopositionAsync().AsTask();
+                task.Wait();
+                pos = task.Result;
+            }
+
+            ViewModel = new TravelListDetailViewModel(id, pos);
         }
     }
 }
