@@ -8,8 +8,7 @@ namespace TravelClient.Activation
     {
         private static readonly Dictionary<string, Type> _activationPages = new Dictionary<string, Type>()
         {
-            // TODO WTS: Add the pages that can be opened from scheme activation in your app here.
-            { "sample", typeof(Views.SchemeActivationSamplePage) }
+
         };
 
         public static Type GetPage(string pageKey)

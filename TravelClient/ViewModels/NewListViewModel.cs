@@ -96,7 +96,11 @@ namespace TravelClient.ViewModels
 
         private async void CreateList()
         {
-            string response = await HttpServiceSingleton.GetInstance.PostAsJsonAsync("TravelList/CreateTravelList", AddList);
+            var image = Image.Value;
+            NewListRequest.Image = image != null ? image.UriSource.AbsoluteUri : "";
+            NewListRequest.LatCoord = this.locs.First().Lat;
+            NewListRequest.LngCoord = this.locs.First().Lon;
+            string response = await HttpServiceSingleton.GetInstance.PostAsJsonAsync("TravelList/CreateTravelList", NewListRequest);
             NavigationService.Navigate<TravelListDetail>(response);
         }
     }

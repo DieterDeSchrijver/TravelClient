@@ -189,9 +189,6 @@
     <Compile Include="Views\NewList.xaml.cs">
       <DependentUpon>NewList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SchemeActivationSamplePage.xaml.cs">
-      <DependentUpon>SchemeActivationSamplePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -255,10 +252,6 @@
     <Page Include="Views\NewList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SchemeActivationSamplePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

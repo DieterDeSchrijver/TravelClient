@@ -11,6 +11,7 @@ using System.Windows.Input;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
+using TravelClient.Views.Dialogs;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -20,6 +21,7 @@ namespace TravelClient.ViewModels
     public class TravelListDetailViewModel
     {
         public Geopoint TravelLocation { get; set; }
+        public Geopoint UserLocation { get; set; }
 
         HttpDataService http = HttpServiceSingleton.GetInstance;
 
@@ -27,17 +29,19 @@ namespace TravelClient.ViewModels
         public ObservableCollection<TravelItem> Items { get; set; } = new ObservableCollection<TravelItem>();
         public ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
         public ObservableWrapper<TravelItem> SelectedItem { get; set; } = new ObservableWrapper<TravelItem>();
+        public ICommand ShowDestinationCommand { get; set; }
 
         public TravelList TravelList { get; set; }
 
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
 
-        public TravelListDetailViewModel(string id)
+        public TravelListDetailViewModel(string id, Geoposition positionUser)
         {
             AddItemCommand = new RelayCommand(AddItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
-            Items.CollectionChanged += (sender, e) =>  CalculateProgress(); //TODO trigger ook als item in collectie zelf aanpast
+            ShowDestinationCommand = new RelayCommand(ShowDestination);
+            UserLocation = new Geopoint(new BasicGeoposition() {Latitude = positionUser.Coordinate.Latitude, Longitude = positionUser.Coordinate.Longitude });
             Task task = Task.Run(async () =>
             {  
                 TravelList = await http.GetAsync<TravelList>($"http://localhost:5000/api/TravelList/{id}");
@@ -57,15 +61,21 @@ namespace TravelClient.ViewModels
             task.Wait();
         }
 
+        private void ShowDestination()
+        {
+            MapDialog mapDialog = new MapDialog(TravelLocation, UserLocation)
+            {
+                Title = "Route",
+                CloseButtonText = "Close"
+            };
+            var result = mapDialog.ShowAsync();
+        }
+
         internal void CheckboxToggle()
         {
             PopulateListView();
         }
 
-        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private void PopulateListView()
         {
