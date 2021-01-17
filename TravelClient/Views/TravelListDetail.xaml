@@ -58,7 +58,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="SingleLineDataTemplate" x:DataType="data:TravelItem">
                             <RelativePanel>
-                                <CheckBox x:Name="checkbox" MinWidth="20" Width="20" IsChecked="{x:Bind Completed, Mode=TwoWay}"></CheckBox>
+                                <CheckBox x:Name="checkbox" MinWidth="20" Width="20" IsChecked="{x:Bind Completed, Mode=TwoWay}" Click="checkbox_toggle"></CheckBox>
                                 <TextBlock x:Name="item" RelativePanel.RightOf="checkbox" Text="{x:Bind Name, Mode=TwoWay}" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" Margin="12,0,0,0"/>
                             </RelativePanel>
                         </DataTemplate>

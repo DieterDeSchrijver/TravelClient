@@ -11,7 +11,6 @@ using System.Windows.Input;
 using TravelClient.Core.Models;
 using TravelClient.Core.Services;
 using TravelClient.Services;
-using TravelClient.Views.Dialogs;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,7 +20,6 @@ namespace TravelClient.ViewModels
     public class TravelListDetailViewModel
     {
         public Geopoint TravelLocation { get; set; }
-        public Geopoint UserLocation { get; set; }
 
         HttpDataService http = HttpServiceSingleton.GetInstance;
 
@@ -34,14 +32,11 @@ namespace TravelClient.ViewModels
 
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
-        public ICommand ShowDestinationCommand { get; set; }
 
-        public TravelListDetailViewModel(string id, Geoposition position)
+        public TravelListDetailViewModel(string id)
         {
-            UserLocation = new Geopoint(new BasicGeoposition() { Longitude = position.Coordinate.Longitude, Latitude = position.Coordinate.Latitude });
             AddItemCommand = new RelayCommand(AddItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
-            ShowDestinationCommand = new RelayCommand(ShowDestinationAsync);
             Items.CollectionChanged += (sender, e) =>  CalculateProgress(); //TODO trigger ook als item in collectie zelf aanpast
             Task task = Task.Run(async () =>
             {  
@@ -62,16 +57,9 @@ namespace TravelClient.ViewModels
             task.Wait();
         }
 
-        private void ShowDestinationAsync()
+        internal void CheckboxToggle()
         {
-
-            MapDialog mapDialog = new MapDialog(TravelLocation, UserLocation)
-            {
-                Title = "Route",
-                CloseButtonText = "Close",
-            };
-
-            var result = mapDialog.ShowAsync();
+            PopulateListView();
         }
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -81,7 +69,10 @@ namespace TravelClient.ViewModels
 
         private void PopulateListView()
         {
-            Items.OrderBy(i => i.Completed).ThenBy(i => i.Name).ToList();
+            var x = Items.OrderBy(i => i.Completed).ThenBy(i => i.Name).ToList();
+            Items.Clear();
+            x.ForEach(i => Items.Add(i));
+            
             CalculateProgress();
         }
 
@@ -149,6 +140,7 @@ namespace TravelClient.ViewModels
         */
         private void AddItem()
         {
+            //TODO HTTP
             var newItemName = new TextBox();
             if (String.IsNullOrEmpty(newItemName.Text) /*|| cmbox.SelectedItem == null*/)
             {
